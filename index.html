@@ -19,15 +19,45 @@
       </nav>
       <div class="container-fluid">
         <div class="row">
-          <form id="search-bar">
-            <label for="searchInput">Enter a City</label>
-            <input
-              type="text"
-              class="form-control mb-2"
-              id="searchInput"
-              placeholder="Enter a Location"
-            />
+          <h4>Search for a City:</h4>
+          <form id="search-form">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                placeholder="City"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="search">
+              Search
+            </button>
           </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="list-group" id="list" role="tablist"></div>
+          <div class="col-md-10">
+            <div class="city display tab-content" id="content">
+              <div
+                class="tab-pane fade show active"
+                id="list-item"
+                role="tabpanel"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-9">
+        <div class="row">
+          <div class="col-12">
+            <h4>City Name</h4>
+            <p>Temp</p>
+            <p>Wind</p>
+            <p>Humidity</p>
+          </div>
         </div>
       </div>
     </main>
@@ -40,6 +70,12 @@
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"
+      integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     ></script>
     <script src="./assets/js/script.js"></script>
   </body>
