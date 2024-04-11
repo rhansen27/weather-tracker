@@ -6,17 +6,7 @@ const searchInput = $("#city");
 const API_KEY = "305a69ec163b25e41504278d241e096d";
 
 // fetch weather data
-async function fetchWeather(city) {
-  const response = await fetch(
-    `api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&untis=imperial`
-  );
-  if (!response.ok) {
-    alert("Request failed! Please try again.");
-  } else {
-    const data = await response.json();
-    return data;
-  }
-}
+async function fetchWeather(city) {}
 
 // save to local storage
 function setLocalStorage(key, item) {
