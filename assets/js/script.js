@@ -3,9 +3,19 @@ const searchButton = $("#search");
 const searchInput = $("#city");
 const form = $("#search-form");
 const container = $("main");
-const cityList = $("#dailyWeather");
+const cityList = $("#fiveDayWeather");
 // API key
 const API_KEY = "305a69ec163b25e41504278d241e096d";
+
+function getLocalStorage() {
+  let cityNameArray = localStorage.getItem("city");
+  if (cityNameArray === null) {
+    cityNameArray = [];
+  } else {
+    cityNameArray = JSON.parse(cityNameArray);
+  }
+  return cityNameArray;
+}
 
 async function getWeather(city) {
   const url = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
@@ -45,7 +55,40 @@ function renderCardForCity(weatherData) {
 //   container.append(alert);
 // }
 
-function getFiveDayForecast(lat, lon) {}
+async function getFiveDayForecast(lat, lon) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+  try {
+    const response = await fetch(url);
+    const weatherForecastData = await response.json();
+    console.log(weatherForecastData);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return weatherForecastData;
+}
+
+function renderFiveDay(weatherForecastData) {
+  console.log(weatherForecastData);
+  const day1 = weatherForecastData.list[0];
+  const day2 = weatherForecastData.list[8];
+  const day3 = weatherForecastData.list[16];
+  const day4 = weatherForecastData.list[24];
+  const day5 = weatherForecastData.list[32];
+
+  const day1Card = createWeatherForecastCard(day1);
+  const day2Card = createWeatherForecastCard(day2);
+  const day3Card = createWeatherForecastCard(day3);
+  const day4Card = createWeatherForecastCard(day4);
+  const day5Card = createWeatherForecastCard(day5);
+
+  $(".forecast-card").remove();
+  cityList.append(day1Card);
+  cityList.append(day2Card);
+  cityList.append(day3Card);
+  cityList.append(day4Card);
+  cityList.append(day5Card);
+}
 
 function handleSubmit(e) {
   e.preventDefault();
