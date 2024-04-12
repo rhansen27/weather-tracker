@@ -1,33 +1,25 @@
 // variable declaration
-const searchButton = $("#search");
-const searchInput = $("#city");
+const searchButton = document.getElementById('search');
+const searchInput = document.getElementById('city');
+const form = document.getElementById('serach-form');
 
 // API key
 const API_KEY = "305a69ec163b25e41504278d241e096d";
 
-// fetch weather data
-async function fetchWeather(city) {}
-
-// save to local storage
-function setLocalStorage(key, item) {
-  localStorage.setItem(key, JSON.stringify(item));
-}
-// recover data from local storage
-function getLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
-}
-// function to handle search when button is clicked
-function handleSearch() {
-  const city = searchInput.val();
-  if (city) {
-    setLocalStorage("city", city);
-  } else {
-    alert("Please enter a city name");
-  }
-  return city;
+function getWeather(city){
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => console.log(error));
 }
 
-// eventListener
-searchButton.on("click", () => {
-  handleSearch();
-});
+function handleSubmit(e){
+    e.preventDefault();
+    const city = searchInput.value;
+    getWeather(city);
+}
+
+window.addEventListener('submit', handleSubmit);
