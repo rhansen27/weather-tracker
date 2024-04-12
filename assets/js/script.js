@@ -3,6 +3,7 @@ const searchButton = document.getElementById("search");
 const searchInput = document.getElementById("city");
 const form = document.getElementById("serach-form");
 const container = document.querySelector("main");
+const cityWeatherEl = document.getElementById("cityWeather");
 // API key
 const API_KEY = "305a69ec163b25e41504278d241e096d";
 
@@ -12,8 +13,26 @@ function getWeather(city) {
     console.log(response);
     if (!response.ok) {
       errorMessage(error);
+    } else {
+      return response.json();
     }
   });
+}
+
+function renderCardForCity(weatherData) {
+  const city = weatherData.name;
+  const temp = weatherData.main.temp;
+  const wind = weatherData.wind.speed;
+  const humidity = weatherData.main.humidity;
+
+  const cityCard = `div class="col-12">
+  <h4 id="cityName">${city}</h4>
+  <p id="temp">Temp: ${temp} F</p>
+  <p id="wind">Wind: ${wind} MPH</p>
+  <p id="humidity">Humidity: ${humidity}%</p>`;
+
+  cityWeatherEl.innerHTML = "";
+  cityWeatherEl.innerHTML = cityCard;
 }
 
 function errorMessage(error) {
