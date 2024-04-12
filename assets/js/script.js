@@ -17,6 +17,12 @@ function getLocalStorage() {
   return cityNameArray;
 }
 
+function setLocalStorage(city) {
+  let cityNameArray = getLocalStorage();
+  cityNameArray.unshift(city);
+  localStorage.setItem("city", JSON.stringify(cityNameArray));
+}
+
 async function getWeather(city) {
   const url = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
   try {
@@ -88,6 +94,14 @@ function renderFiveDay(weatherForecastData) {
   cityList.append(day3Card);
   cityList.append(day4Card);
   cityList.append(day5Card);
+}
+
+function createSearchHistory(city) {
+  const cityCard = `<div class="card search-history-card" data-city="${city}">
+  <div class="card-body">
+    <h5 class="card-title">${city}</h5>
+  </div>`;
+  $("#searchHistory").append(cityCard);
 }
 
 function handleSubmit(e) {
