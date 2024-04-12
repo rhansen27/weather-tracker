@@ -97,11 +97,26 @@ function renderFiveDay(weatherForecastData) {
 }
 
 function createSearchHistory(city) {
-  const cityCard = `<div class="card search-history-card" data-city="${city}">
+  const cityCard = `<div class="card search-history-card" id="searchHistory" data-city="${city}">
   <div class="card-body">
     <h5 class="card-title">${city}</h5>
   </div>`;
-  $("#searchHistory").append(cityCard);
+
+  return cityCard;
+}
+
+function renderSearchHistory(city) {
+  $("#searchHistory").empty();
+  let cityList = getLocalStorage();
+  for (const city of cityList) {
+    const cityCard = createSearchHistory(city);
+    $("#searchHistory").append(cityCard);
+  }
+
+  $(".search-history-card").on("click", function () {
+    const city = $(this).data("city");
+    getWeather(city);
+  });
 }
 
 function handleSubmit(e) {
