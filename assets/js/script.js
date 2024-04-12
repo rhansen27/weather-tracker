@@ -7,16 +7,15 @@ const cityList = $("#dailyWeather");
 // API key
 const API_KEY = "305a69ec163b25e41504278d241e096d";
 
-function getWeather(cityName) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
-  fetch(url).then(function (response) {
-    if (!response.ok) {
-      errorMessage(error);
-    } else {
-      console.log(response);
-      return response.json();
-    }
-  });
+async function getWeather(city) {
+  const url = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+  try {
+    const response = await fetch(url);
+    const weatherData = await response.json();
+    console.log(weatherData);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function renderCardForCity(weatherData) {
@@ -33,34 +32,25 @@ function renderCardForCity(weatherData) {
   $("#dailyWeather").empty().append(cityCard);
 }
 
-function errorMessage(error) {
-  const alert = document.createElement("div");
-  alert.classList.add(
-    "alert",
-    "alert-danger",
-    "alert-dismissible",
-    "fade",
-    "show"
-  );
-  alert.innerText = error;
-  container.appendChild(alert);
-}
+// function errorMessage(error) {
+//   const alert = document.createElement("div");
+//   alert.classList.add(
+//     "alert",
+//     "alert-danger",
+//     "alert-dismissible",
+//     "fade",
+//     "show"
+//   );
+//   alert.innerText = error;
+//   container.append(alert);
+// }
 
 function getFiveDayForecast(lat, lon) {}
 
 function handleSubmit(e) {
   e.preventDefault();
-  const city = searchInput.value;
+  const city = searchInput.val();
   getWeather(city);
 }
-$(document).ready(function () {
-  let cityName = searchInput.val();
-
-  if (cityName) {
-    getWeather(cityName);
-  } else {
-    errorMessage("Please enter a city name");
-  }
-});
 
 form.on("submit", handleSubmit);
