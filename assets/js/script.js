@@ -1,7 +1,7 @@
 // variable declaration
 const searchButton = $("#search");
 const searchInput = $("#city");
-const form = $("#serach-form");
+const form = $("#search-form");
 const container = $("main");
 const cityList = $("#dailyWeather");
 // API key
@@ -53,7 +53,7 @@ function handleSubmit(e) {
   const city = searchInput.value;
   getWeather(city);
 }
-$document.ready(function () {
+$(document).ready(function () {
   let cityName = searchInput.val();
 
   if (cityName) {
