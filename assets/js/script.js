@@ -1,38 +1,36 @@
 // variable declaration
-const searchButton = document.getElementById("search");
-const searchInput = document.getElementById("city");
-const form = document.getElementById("serach-form");
-const container = document.querySelector("main");
-const cityWeatherEl = document.getElementById("cityWeather");
+const searchButton = $("#search");
+const searchInput = $("#city");
+const form = $("#serach-form");
+const container = $("main");
+const cityList = $("#dailyWeather");
 // API key
 const API_KEY = "305a69ec163b25e41504278d241e096d";
 
-function getWeather(city) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+function getWeather(cityName) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
   fetch(url).then(function (response) {
-    console.log(response);
     if (!response.ok) {
       errorMessage(error);
     } else {
+      console.log(response);
       return response.json();
     }
   });
 }
 
 function renderCardForCity(weatherData) {
-  const city = weatherData.name;
-  const temp = weatherData.main.temp;
-  const wind = weatherData.wind.speed;
-  const humidity = weatherData.main.humidity;
+  const cityName = weatherData.name;
+  const cityTemp = weatherData.main.temp;
+  const cityWind = weatherData.wind.speed;
+  const cityHumidity = weatherData.main.humidity;
 
   const cityCard = `div class="col-12">
-  <h4 id="cityName">${city}</h4>
-  <p id="temp">Temp: ${temp} F</p>
-  <p id="wind">Wind: ${wind} MPH</p>
-  <p id="humidity">Humidity: ${humidity}%</p>`;
-
-  cityWeatherEl.innerHTML = "";
-  cityWeatherEl.innerHTML = cityCard;
+  <h4 id="cityName">${cityName}</h4>
+  <p id="temp">Temp: ${cityTemp} F</p>
+  <p id="wind">Wind: ${cityWind} MPH</p>
+  <p id="humidity">Humidity: ${cityHumidity}%</p>`;
+  $("#dailyWeather").empty().append(cityCard);
 }
 
 function errorMessage(error) {
@@ -48,10 +46,21 @@ function errorMessage(error) {
   container.appendChild(alert);
 }
 
+function getFiveDayForecast(lat, lon) {}
+
 function handleSubmit(e) {
   e.preventDefault();
   const city = searchInput.value;
   getWeather(city);
 }
+$document.ready(function () {
+  let cityName = searchInput.val();
 
-window.addEventListener("submit", handleSubmit);
+  if (cityName) {
+    getWeather(cityName);
+  } else {
+    errorMessage("Please enter a city name");
+  }
+});
+
+form.on("submit", handleSubmit);
